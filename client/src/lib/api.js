@@ -1,4 +1,7 @@
-const BASE = '/api';
+// In dev, Vite proxies /api -> http://localhost:4000 (see vite.config.js).
+// In production (Vercel), there is no proxy, so we call the deployed backend
+// directly via an env var you set in the Vercel dashboard.
+const BASE = import.meta.env.VITE_API_URL ? `${import.meta.env.VITE_API_URL}/api` : '/api';
 
 function getToken() { return localStorage.getItem('sb_token'); }
 

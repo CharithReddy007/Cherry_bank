@@ -4,7 +4,13 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 
 const app = express();
-app.use(cors());
+
+// Local dev origins always allowed. Add your deployed frontend URL(s) via the
+// FRONTEND_ORIGINS env var (comma-separated), e.g.:
+// FRONTEND_ORIGINS=https://cherry-bank.vercel.app
+const defaultOrigins = ['http://localhost:3000'];
+const extraOrigins = (process.env.FRONTEND_ORIGINS || '').split(',').map(o => o.trim()).filter(Boolean);
+app.use(cors({ origin: [...defaultOrigins, ...extraOrigins], credentials: true }));
 app.use(express.json());
 
 // Routes
